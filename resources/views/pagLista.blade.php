@@ -11,18 +11,24 @@
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Codigo</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
+                <th scope="col">Apellidos y nombres</th>
                 <th scope="col">Fecha de nacimiento</th>
+                <th scope="col">Turno</th>
+                <th scope="col">Semestre</th>
+                <th scope="col">Estado de matricula</th>
             <tr>
     </thead>  
     <tbody>
-         @foreach($xAlumno as $item)
+         @foreach($xAlumnos as $item)
          <tr>
               <th scope="row"> {{$item->id }}</th>
               <td>{{ $item ->codEst}}</td>
-              <td>{{ $item ->namEst}}</td>
-              <td>{{ $item ->apeEst}}</td>
+            
+              <td>
+                <a href="{{route ('Estudiante.xDetalle',$item->id)}}">
+                    {{$item->apeEst }},{{$item->namEst}}
+                </a>
+              </td>
               <td>{{ $item ->fnaEst}}</td>
         </tr>
          @endforeach
