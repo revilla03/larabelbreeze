@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Estudiante;
+use App\Models\Seguimiento;
 
 
 class PagesController extends Controller
@@ -88,5 +89,45 @@ class PagesController extends Controller
         $valor = $numero;
         $otro  = 25;
         return view('pagGaleria', compact('valor','otro'));
+    }
+
+    public function fnSeguimiento(){
+        $xAlumnos = Seguimiento::all();              //Todos los datos
+        //$xAlumnos = Seguimiento::paginate(4);
+        return view('pagSeguimiento', compact('xAlumnos'));
+    }
+
+    public function fnEstDetaSeg($id){
+        $xDetAlumnos = Seguimiento::findOrFail($id);
+        return view('Estudiante.pagDetalleSeg', compact('xDetAlumnos'));
+    }
+
+    public function fnRegistrarSeg(Request $request){
+
+        //return $request->all();         //Prueba de "token" y datos recibidos
+
+        $request -> validate([
+            'idEst' => 'required',
+            'traAct' => 'required',
+            'ofiAct' => 'required',
+            'satEst' => 'required',
+            'fecSeg' => 'required',
+            'estSeg' => 'required',
+        ]);
+
+        $nuevoSeguimiento = new Seguimiento;
+        
+        $nuevoSeguimiento->idEst = $request->idEst;
+        $nuevoSeguimiento->traAct = $request->traAct;
+        $nuevoSeguimiento->ofiAct = $request->ofiAct;
+        $nuevoSeguimiento->satEst = $request->satEst;
+        $nuevoSeguimiento->fecSeg = $request->fecSeg;
+        $nuevoSeguimiento->estSeg = $request->estSeg;
+        
+        $nuevoSeguimiento->save();
+        
+        //$xAlumnos = Estudiante1::all();                      //Datos de BD
+        //return view('pagLista', compact('xAlumnos'));        //Pasar a pagLista
+        return back()->with('msj','Se registro con éxito...'); //Regresar con msj
     }
 }
